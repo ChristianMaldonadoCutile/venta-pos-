@@ -30,39 +30,25 @@
       <div class="grid grid-cols-1 gap-3">
     
         <label for="">Nombre</label>
-        <input type="text" placeholder="Nombre"
+        <input [(ngModel)]="usuario.nombre" name="nombre" id="nombre" type="text" placeholder="Nombre"
                class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
     
         <label for="">Email</label>
-        <input type="email" placeholder="Email"
+        <input [(ngModel)]="usuario.email" name="email" id="email" type="email" placeholder="Email"
         class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
     
         <label for="">Contraseña</label>
-        <input type="password" placeholder="Contraseña"
+        <input [(ngModel)]="usuario.password" name="password" id="password" type="password" placeholder="Contraseña"
         class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
     
-        <label for="">Apellido</label>
-        <input type="text" placeholder="Apellido"
-        class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
-    
-        <label for="">CI</label>
-        <input type="text" placeholder="CI"
-        class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
-    
-        <label for="">Rol</label>
-        <select name="rol" id="" class="border  border-gray-500 p-2 rounded w-full">
-          <option value="admin">Admin</option>
-          <option value="user">User</option>
+        <label>Rol</label>
+        <select [(ngModel)]="usuario.rol" name="rol" id="rol" class="border  border-gray-500 p-2 rounded w-full">
+          <option *ngFor="let rol of roles" value="{{rol.nombre}}">{{rol.nombre}}</option>
         </select>
-    
-        <label for="">Turno</label>
-        <input type="text" placeholder="Turno"
-        class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
-    
       </div>
     
       <div class="text-center">
-        <button type="submit"
+        <button (click)="crearUsuario()" 
                 class="mt-4 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
           Guardar
         </button>
@@ -78,35 +64,20 @@
       <tr>
         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apellido</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CI</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Correo</th>
         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Turno</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nit</th>
         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
       </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
       <!-- Usuario 1 -->
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap">1</td>
-        <td class="px-6 py-4 whitespace-nowrap">Juan</td>
-        <td class="px-6 py-4 whitespace-nowrap">Pérez</td>
-        <td class="px-6 py-4 whitespace-nowrap">12345678</td>
-        <td class="px-6 py-4 whitespace-nowrap">Admin</td>
-        <td class="px-6 py-4 whitespace-nowrap">Mañana</td>
-        <td class="px-6 py-4 whitespace-nowrap space-x-2">
-          <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Editar</button>
-          <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">Eliminar</button>
-        </td>
-      </tr>
-      <!-- Usuario 2 -->
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap">2</td>
-        <td class="px-6 py-4 whitespace-nowrap">María</td>
-        <td class="px-6 py-4 whitespace-nowrap">López</td>
-        <td class="px-6 py-4 whitespace-nowrap">87654321</td>
-        <td class="px-6 py-4 whitespace-nowrap">Usuario</td>
-        <td class="px-6 py-4 whitespace-nowrap">Tarde</td>
+      <tr *ngFor="let usuario of usuarios">
+        <td class="px-6 py-4 whitespace-nowrap">{{usuario.id}}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{usuario.nombre}}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{usuario.email}}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{usuario.rol}}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{usuario.nit}}</td>
         <td class="px-6 py-4 whitespace-nowrap space-x-2">
           <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Editar</button>
           <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">Eliminar</button>

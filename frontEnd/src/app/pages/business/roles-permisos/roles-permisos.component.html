@@ -14,21 +14,21 @@
       <!-- Contenido del modal -->
       <h2 class="text-2xl font-semibold mb-6 text-center">Crear Rol</h2>
       
-      <form (ngSubmit)="guardarRol()" class="space-y-4">
+      <form  class="space-y-4">
         <div class="grid grid-cols-1 gap-3">
       
           <label for="rol">Rol</label>
-          <input type="text" id="rol" [(ngModel)]="nuevoRol.rol" name="rol" placeholder="Nombre del Rol"
+          <input [(ngModel)]="nombre" type="text" id="nombre"  name="nombre" placeholder="Nombre del Rol"
                  class="border bg-transparent placeholder-gray-400  border-gray-500 p-2 rounded w-full" required />
       
           <label for="descripcion">Descripción</label>
-          <input type="text" id="descripcion" [(ngModel)]="nuevoRol.descripcion" name="descripcion" placeholder="Descripción del Rol"
+          <input [(ngModel)]="descripcion"  type="text" id="descripcion"  name="descripcion" placeholder="Descripción del Rol"
                  class="border bg-transparent placeholder-gray-400  border-gray-500 p-2 rounded w-full" required />
       
         </div>
       
         <div class="text-center">
-          <button type="submit" class="mt-4 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+          <button (click)="crearRol()" type="submit" class="mt-4 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
             Guardar
           </button>
         </div>
@@ -48,24 +48,18 @@
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
-        <!-- Ejemplo de rol 1 -->
-        <tr>
-          <td class="px-6 py-4 whitespace-nowrap">1</td>
-          <td class="px-6 py-4 whitespace-nowrap">Administrador</td>
-          <td class="px-6 py-4 whitespace-nowrap">Acceso completo al sistema</td>
+        <tr *ngFor="let rol of roles">
+          <td class="px-6 py-4 whitespace-nowrap">{{ rol.id }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ rol.nombre }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ rol.descripcion }}</td>
           <td class="px-6 py-4 whitespace-nowrap space-x-2">
-            <button (click)="editarRol(1)" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Editar</button>
-            <button (click)="eliminarRol(1)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">Eliminar</button>
-          </td>
-        </tr>
-        <!-- Ejemplo de rol 2 -->
-        <tr>
-          <td class="px-6 py-4 whitespace-nowrap">2</td>
-          <td class="px-6 py-4 whitespace-nowrap">Usuario</td>
-          <td class="px-6 py-4 whitespace-nowrap">Acceso limitado al sistema</td>
-          <td class="px-6 py-4 whitespace-nowrap space-x-2">
-            <button (click)="editarRol(2)" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Editar</button>
-            <button (click)="eliminarRol(2)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">Eliminar</button>
+            <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+              Editar
+            </button>
+            <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                    (click)="eliminarRol(rol.id!)">
+              Eliminar
+            </button>
           </td>
         </tr>
       </tbody>

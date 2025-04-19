@@ -1,39 +1,59 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RolService } from '../../../service/rolService/rol.service';
+import { Rol } from '../../../model/rol';
 
 @Component({
   selector: 'app-roles-permisos',
-  imports: [FormsModule, CommonModule],
+  standalone: true,
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './roles-permisos.component.html',
   styleUrl: './roles-permisos.component.css'
 })
-export default class RolesPermisosComponent {
-  mostrarModal: boolean = false;
-  nuevoRol = {
-    rol: '',
-    descripcion: ''
-  };
+export default class RolesPermisosComponent implements OnInit{
 
+  roles: Rol[] = [];
+  nombre:string = '';
+  descripcion:string = '';
+
+  constructor(private rolService: RolService) { }
+
+  ngOnInit(): void {
+      this.mostrarRoles();
+  }
+
+  mostrarRoles() {
+    this.rolService.mostrarRoles().subscribe((roles) => {
+      this.roles = roles;
+    });
+  }
+
+  crearRol() {
+    const rol = { nombre: this.nombre, descripcion: this.descripcion };
+    console.log(rol);
+    this.rolService.crearRol(rol).subscribe(() => {
+      this.mostrarRoles();
+      this.nombre = '';
+      this.descripcion = '';
+      this.cerrarModal();
+    });
+  }
+
+  eliminarRol(id: number) {
+    this.rolService.eliminarRol(id).subscribe(() => {
+      this.mostrarRoles();
+    });
+  }
+
+  // Modal de guardar
+  mostrarModal: boolean = false;
   abrirModal() {
     this.mostrarModal = true;
   }
 
   cerrarModal() {
     this.mostrarModal = false;
-  }
-
-  guardarRol() {
-    // Aquí puedes manejar la lógica para agregar el nuevo rol
-    console.log(this.nuevoRol);
-    this.cerrarModal(); // Cerrar el modal después de guardar
-  }
-
-  editarRol(id: number) {
-    // Lógica para editar rol
-  }
-
-  eliminarRol(id: number) {
-    // Lógica para eliminar rol
+    // this.nuevoRol = { nombre: '', descripcion: '' , estado: true };
   }
 }
