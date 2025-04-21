@@ -2,7 +2,13 @@
 <button (click)="abrirModal()" class="px-6 py-3 mb-4 bg-blue-600 text-white rounded-lg block">
     Crear Rol
   </button>
-  
+
+  <!-- Buscador ocupará 2/3 -->
+  <input [(ngModel)]="busqueda"
+  (input)="filtrarRoles(busqueda)"
+  placeholder="Buscar por nombre..."
+  class="col-span-2 p-2 border rounded w-full" />
+
   <!-- Modal -->
   <div *ngIf="mostrarModal" class="fixed inset-0 bg-white/10 backdrop-blur-sm flex items-center justify-center z-50 border-y-gray-400 border">
     <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl relative border-y-gray-400 border">
@@ -10,23 +16,23 @@
       <button (click)="cerrarModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl">
         &times;
       </button>
-  
+
       <!-- Contenido del modal -->
       <h2 class="text-2xl font-semibold mb-6 text-center">Crear Rol</h2>
-      
+
       <form  class="space-y-4">
         <div class="grid grid-cols-1 gap-3">
-      
+
           <label for="rol">Rol</label>
           <input [(ngModel)]="nombre" type="text" id="nombre"  name="nombre" placeholder="Nombre del Rol"
                  class="border bg-transparent placeholder-gray-400  border-gray-500 p-2 rounded w-full" required />
-      
+
           <label for="descripcion">Descripción</label>
           <input [(ngModel)]="descripcion"  type="text" id="descripcion"  name="descripcion" placeholder="Descripción del Rol"
                  class="border bg-transparent placeholder-gray-400  border-gray-500 p-2 rounded w-full" required />
-      
+
         </div>
-      
+
         <div class="text-center">
           <button (click)="crearRol()" type="submit" class="mt-4 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
             Guardar
@@ -35,7 +41,7 @@
       </form>
     </div>
   </div>
-  
+
   <!-- Tabla de Roles -->
   <div class="overflow-x-auto mt-4">
     <table class="min-w-full divide-y divide-gray-200 shadow-md rounded-xl overflow-hidden">
@@ -48,7 +54,7 @@
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
-        <tr *ngFor="let rol of roles">
+        <tr *ngFor="let rol of rolFiltrados">
           <td class="px-6 py-4 whitespace-nowrap">{{ rol.id }}</td>
           <td class="px-6 py-4 whitespace-nowrap">{{ rol.nombre }}</td>
           <td class="px-6 py-4 whitespace-nowrap">{{ rol.descripcion }}</td>
@@ -65,4 +71,3 @@
       </tbody>
     </table>
   </div>
-  

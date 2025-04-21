@@ -13,14 +13,21 @@ import { Route, Router, RouterModule } from '@angular/router';
 })
 export default class LoginComponent {
     email : string = '';
-    password : string = ''; 
+    password : string = '';
 
     constructor(private readonly authService: AuthService, private router:Router ) { }
 
     login() {
       this.authService.login(this.email, this.password).subscribe((response: any) => {
         localStorage.setItem('token', response.token);
-        this.router.navigate(['dashboard']);
+        localStorage.setItem('id', response.usuario.id);
+        localStorage.setItem('nombre', response.usuario.nombre);
+        localStorage.setItem('rol', response.usuario.rol);
+        if( response.usuario.rol === 'Cliente')
+          this.router.navigate(['ecommerce']);
+        else
+          this.router.navigate(['dashboard']);
       });
     }
 }
+

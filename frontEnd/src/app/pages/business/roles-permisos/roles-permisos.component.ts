@@ -26,6 +26,7 @@ export default class RolesPermisosComponent implements OnInit{
   mostrarRoles() {
     this.rolService.mostrarRoles().subscribe((roles) => {
       this.roles = roles;
+      this.rolFiltrados = [...roles];
     });
   }
 
@@ -56,4 +57,20 @@ export default class RolesPermisosComponent implements OnInit{
     this.mostrarModal = false;
     // this.nuevoRol = { nombre: '', descripcion: '' , estado: true };
   }
+
+  // ----------------Busqueda por filtros-------------------
+  busqueda: string = '';
+  rolFiltrados: Rol[] = [];
+  filtrarRoles(termino: string): void {
+    if (!termino) {
+      this.rolFiltrados = [...this.roles];
+      return;
+    }
+
+    this.rolFiltrados = this.roles.filter(rol =>
+      rol.nombre.toLowerCase().includes(termino.toLowerCase())
+    );
+  }
+
+//---------------------------------------------------------
 }

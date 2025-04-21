@@ -10,12 +10,24 @@
             <span class="self-center whitespace-nowrap text-xl font-semibold">TecnoParts</span>
         </a>
         <div class="mt-2 sm:mt-0 sm:flex md:order-2">
-            <!-- Login Button -->
+            <ng-template [ngIf] = "!isLogin" [ngIfElse] = "buttonlogin" #buttonSesion>
+                <!-- Login Button -->
             <button type="button"
-                class="rounde mr-3 hidden border border-blue-700 py-1.5 px-6 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg">Login</button>
+            class="rounde mr-3 hidden border border-blue-700 py-1.5 px-6 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg" (click)="login()">Login</button>
             <button type="button"
-                class="rounde mr-3 hidden bg-blue-700 py-1.5 px-6 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">Register</button>
+            class="rounde mr-3 hidden bg-blue-700 py-1.5 px-6 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg" (click)="registrar()">Register</button>
             <!-- Register Button -->
+            </ng-template>
+
+            <ng-template #buttonlogin>
+                <!-- Login Button -->
+            <button type="button" disabled
+            class="rounde mr-3 hidden border border-blue-700 py-1.5 px-6 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg" >{{nombreUsuario}}</button>
+            <button type="button"
+            class="rounde mr-3 hidden bg-blue-700 py-1.5 px-6 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg" (click)="cerrarSesion()">Cerrar Sesion</button>
+            <!-- Register Button -->
+            </ng-template>
+
             <button data-collapse-toggle="navbar-sticky" type="button"
                 class="inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 md:hidden"
                 aria-controls="navbar-sticky" aria-expanded="false">
@@ -35,14 +47,6 @@
                     <a href="#"
                         class="block rounded bg-blue-700 py-2 pl-3 pr-4 text-white md:bg-transparent md:p-0 md:text-blue-700"
                         aria-current="page">Inicio</a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="block rounded py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700">Productos</a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="block rounded py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700">Promociones</a>
                 </li>
                 <li>
                     <a href=""

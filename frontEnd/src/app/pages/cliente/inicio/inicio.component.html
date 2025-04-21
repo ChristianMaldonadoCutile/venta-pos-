@@ -4,16 +4,8 @@
 
 <main class="py-10 bg-gray-100 mt-10">
     <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-4 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        <app-card />
-        <app-card />
-        <app-card />
-        <app-card />
-        <app-card />
-        <app-card />
-        <app-card />
-        <app-card />
-        <app-card />
-        <app-card />
+        <app-card *ngFor="let producto of productos" [producto]="producto"/>
+       
     </div>
 </main>
 <footer>

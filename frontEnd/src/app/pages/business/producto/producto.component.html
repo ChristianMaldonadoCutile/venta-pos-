@@ -1,7 +1,13 @@
 <!-- Botón para abrir el modal -->
 <button (click)="abrirModal()" class="px-6 py-3 mb-4 bg-blue-600 text-white rounded-lg  block">
-  Crear Usuario
+  Crear Producto
 </button>
+
+<!-- Buscador ocupará 2/3 -->
+<input [(ngModel)]="busqueda"
+(input)="filtrarProductos(busqueda)"
+placeholder="Buscar por nombre..."
+class="col-span-2 p-2 border rounded w-full" />
 
 <!-- Modal -->
 <div *ngIf="mostrarModal" class="fixed inset-0 bg-white/10 backdrop-blur-sm flex items-center justify-center z-50 border-y-gray-400 border">
@@ -12,9 +18,42 @@
     </button>
 
     <!-- Contenido del modal -->
-    <h2 class="text-2xl font-semibold mb-6 text-center">Crear Usuario</h2>
+    <h2 class="text-2xl font-semibold mb-6 text-center">Crear Producto</h2>
 
     <!-- Imagen centrada con ícono de usuario -->
+    <div class="flex flex-col items-center mb-4">
+      <label class="relative w-28 h-28 border-2 border-gray-300 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden">
+        <!-- Vista previa -->
+        <ng-container *ngIf="previewUrl; else defaultIcon">
+          <img [src]="previewUrl" class="w-full h-full object-cover" alt="Vista previa">
+        </ng-container>
+
+        <!-- Icono por defecto -->
+        <ng-template #defaultIcon>
+          <svg class="w-12 h-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M5.121 17.804A9.003 9.003 0 0112 15c2.485 0 4.735.997 6.364 2.636M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </ng-template>
+
+        <input
+          type="file"
+          class="absolute inset-0 opacity-0 cursor-pointer z-10"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+        />
+      </label>
+
+      <!-- Botón para borrar la imagen -->
+      <button
+        *ngIf="previewUrl"
+        class="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        (click)="deleteImage()"
+      >
+        Eliminar imagen
+      </button>
+    </div>
     <!-- <div class="flex justify-center mb-4">
       <label class="relative w-28 h-28 border-2 border-gray-300 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden">
         <input type="file" class="absolute inset-0 opacity-0 cursor-pointer z-10" />
@@ -25,22 +64,22 @@
         </svg>
       </label>
     </div> -->
-    
+
     <form class="space-y-4">
       <div class="grid grid-cols-1 gap-3">
-    
+
         <label for="">Nombre</label>
         <input [(ngModel)]="producto.nombre" name="nombre" id="nombre" type="text" placeholder="Nombre"
                class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
-    
+
         <label  for="">Cantidad</label>
         <input [(ngModel)]="producto.cantidad" name="cantidad" id="cantidad" type="number" placeholder="Cantidad"
         class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
-    
+
         <label  for="">Costo</label>
         <input [(ngModel)]="producto.costo" name="costo" id="costo" type="number" placeholder="Costo"
         class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
-    
+
         <label  for="">Precio</label>
         <input [(ngModel)]="producto.precio" name="precio" id="precio" type="number" placeholder="Costo"
         class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
@@ -51,9 +90,9 @@
         </select>
 
       </div>
-    
+
       <div class="text-center">
-        <button (click)="crearProducto()" type="submit" 
+        <button (click)="crearProducto()" type="submit"
                 class="mt-4 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
           Guardar
         </button>
@@ -78,7 +117,7 @@
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
       <!-- Usuario 1 -->
-      <tr *ngFor="let producto of productos">
+      <tr *ngFor="let producto of productosFiltrados">
         <td class="px-6 py-4 whitespace-nowrap">{{producto.id}}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{producto.nombre}}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{producto.cantidad}}</td>
@@ -88,7 +127,7 @@
 
         <td class="px-6 py-4 whitespace-nowrap space-x-2">
           <button (click)="editarProducto(producto)" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Editar</button>
-          <button (click)="eliminarProducto(producto.id!)" 
+          <button (click)="eliminarProducto(producto.id!)"
           class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">Eliminar</button>
         </td>
       </tr>

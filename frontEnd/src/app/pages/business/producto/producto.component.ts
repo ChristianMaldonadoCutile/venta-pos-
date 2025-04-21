@@ -21,6 +21,9 @@ export default class ProductoComponent {
   categorias: Categoria[] = [];
   crear : boolean = true;
 
+  previewUrl: string | ArrayBuffer | null = null;
+  private db: IDBDatabase | null = null;
+
   producto: Producto = {} as Producto;
 
 /*************  ✨ Windsurf Command ⭐  *************/
@@ -32,9 +35,77 @@ export default class ProductoComponent {
 
 /*******  2749d807-2adc-4d84-bd58-c5112da403e0  *******/
   ngOnInit() {
+    this.initDB();
     this.mostrarProductos();
     this.cargarCategoria();
   }
+
+  private initDB(): void {
+    const request = indexedDB.open('ImageStorageDB', 1);
+
+    request.onupgradeneeded = (event) => {
+      this.db = (event.target as IDBOpenDBRequest).result;
+      if (!this.db.objectStoreNames.contains('images')) {
+        this.db.createObjectStore('images', { keyPath: 'id' });
+      }
+    };
+
+    request.onsuccess = (event) => {
+      this.db = (event.target as IDBOpenDBRequest).result;
+      this.loadImage();
+    };
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result;
+        this.saveImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  private saveImage(imageData: string): void {
+    if (!this.db) return;
+
+    const transaction = this.db.transaction('images', 'readwrite');
+    const store = transaction.objectStore('images');
+    store.put({ id: 'profile', data: imageData });
+  }
+
+  private loadImage(): void {
+    if (!this.db) return;
+
+    const transaction = this.db.transaction('images');
+    const store = transaction.objectStore('images');
+    const request = store.get('profile');
+
+    request.onsuccess = (event) => {
+      const result = (event.target as IDBRequest).result;
+      if (result) {
+        this.previewUrl = result.data;
+      }
+    };
+  }
+
+  deleteImage(): void {
+    // Para localStorage
+    localStorage.removeItem('userProfileImage');
+
+    // Para IndexedDB
+    if (this.db) {
+      const transaction = this.db.transaction('images', 'readwrite');
+      const store = transaction.objectStore('images');
+      store.delete('profile');
+    }
+
+    this.previewUrl = null;
+  }
+
 
   cargarCategoria() {
     this.categoriaService.mostrarCategorias().subscribe(categorias => {
@@ -45,6 +116,7 @@ export default class ProductoComponent {
   mostrarProductos() {
     this.productoService.mostrarProductos().subscribe(productos => {
       this.productos = productos;
+      this.productosFiltrados = [...this.productos];
     });
   }
 
@@ -87,4 +159,20 @@ export default class ProductoComponent {
     this.mostrarModal = false;
     this.producto = {} as Producto;
   }
+
+  // ----------------Busqueda por filtros-------------------
+  busqueda: string = '';
+  productosFiltrados: Producto[] = [];
+  filtrarProductos(termino: string): void {
+    if (!termino) {
+      this.productosFiltrados = [...this.productos];
+      return;
+    }
+
+    this.productosFiltrados = this.productos.filter(producto =>
+      producto.nombre.toLowerCase().includes(termino.toLowerCase())
+    );
+  }
+
+//---------------------------------------------------------
 }

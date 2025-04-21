@@ -26,6 +26,7 @@ export default class CategoriaComponent {
   mostrarCategorias() {
     this.categoriaService.mostrarCategorias().subscribe(categorias => {
       this.categorias = categorias;
+      this.categoriasFiltrados = [...categorias];
     });
   }
 
@@ -55,4 +56,20 @@ export default class CategoriaComponent {
   cerrarModal() {
     this.mostrarModal = false;
   }
+
+  // ----------------Busqueda por filtros-------------------
+    busqueda: string = '';
+    categoriasFiltrados: Categoria[] = [];
+    filtrarCategorias(termino: string): void {
+      if (!termino) {
+        this.categoriasFiltrados = [... this.categorias];
+        return;
+      }
+
+      this.categoriasFiltrados = this.categorias.filter(categoria =>
+        categoria.nombre.toLowerCase().includes(termino.toLowerCase())
+      );
+    }
+
+  //---------------------------------------------------------
 }
