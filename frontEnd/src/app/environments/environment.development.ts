@@ -1,3 +1,3 @@
 export const environment = {
-    endpoint : 'http://localhost:8000',
+    endpoint : 'https://ideal-ardella-davv-72be0a67.koyeb.app/',
 };
