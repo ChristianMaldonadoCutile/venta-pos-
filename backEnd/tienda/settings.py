@@ -108,11 +108,11 @@ WSGI_APPLICATION = 'tienda.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv("NAME", default=""),
-        'USER': os.getenv("USER", default=""),
-        'PASSWORD': os.getenv("PASSWORD", default=""),
-        'HOST': os.getenv("HOST", default=""),
-        'PORT': os.getenv("PORT", default=""),
+        'NAME': os.getenv("DB_NAME", default=""),
+        'USER': os.getenv("DB_USER", default=""),
+        'PASSWORD': os.getenv("DB_PASSWORD", default=""),
+        'HOST': os.getenv("DB_HOST", default=""),
+        'PORT': os.getenv("DB_PORT", default=""),
     }
 }
 
@@ -150,7 +150,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
