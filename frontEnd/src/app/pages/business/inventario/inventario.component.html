@@ -1,0 +1,102 @@
+<!-- Botón para abrir el modal -->
+<button (click)="abrirModal()" class="px-6 py-3 mb-4 bg-blue-600 text-white rounded-lg  block">
+    Crear Usuario
+  </button>
+  
+  <!-- Modal -->
+  <div *ngIf="mostrarModal" class="fixed inset-0 bg-white/10 backdrop-blur-sm flex items-center justify-center z-50 border-y-gray-400 border">
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl relative border-y-gray-400 border">
+      <!-- Botón cerrar -->
+      <button (click)="cerrarModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl">
+        &times;
+      </button>
+  
+      <!-- Contenido del modal -->
+      <h2 class="text-2xl font-semibold mb-6 text-center">Crear Usuario</h2>
+  
+      <!-- Imagen centrada con ícono de usuario -->
+      <div class="flex justify-center mb-4">
+        <label class="relative w-28 h-28 border-2 border-gray-300 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden">
+          <input type="file" class="absolute inset-0 opacity-0 cursor-pointer z-10" />
+          <svg class="w-12 h-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M5.121 17.804A9.003 9.003 0 0112 15c2.485 0 4.735.997 6.364 2.636M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </label>
+      </div>
+      
+      <form class="space-y-4">
+        <div class="grid grid-cols-1 gap-3">
+      
+          <label for="">Nombre</label>
+          <input type="text" placeholder="Nombre"
+                 class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
+      
+          <label for="">Email</label>
+          <input type="email" placeholder="Email"
+          class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
+      
+          <label for="">Contraseña</label>
+          <input type="password" placeholder="Contraseña"
+          class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
+      
+          <label for="">Apellido</label>
+          <input type="text" placeholder="Apellido"
+          class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
+      
+          <label for="">CI</label>
+          <input type="text" placeholder="CI"
+          class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
+      
+          <label for="">Rol</label>
+          <select name="rol" id="" class="border  border-gray-500 p-2 rounded w-full">
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </select>
+      
+          <label for="">Turno</label>
+          <input type="text" placeholder="Turno"
+          class="border bg-transparent placeholder-gray-400 border-gray-500 p-2 rounded w-full" />
+      
+        </div>
+      
+        <div class="text-center">
+          <button type="submit" 
+                  class="mt-4 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Tabla de Usuarios -->
+  <div class="overflow-x-auto mt-4">
+    <table class="min-w-full divide-y divide-gray-200 shadow-md rounded-xl overflow-hidden">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Correo</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nit</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <!-- Usuario 1 -->
+        <!-- <tr *ngFor="let usuario of usuarios">
+          <td class="px-6 py-4 whitespace-nowrap">{{usuario.id}}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{usuario.nombre}}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{usuario.email}}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{usuario.rol}}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{usuario.nit}}</td>
+          <td class="px-6 py-4 whitespace-nowrap space-x-2">
+            <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Editar</button>
+            <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">Eliminar</button>
+          </td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>

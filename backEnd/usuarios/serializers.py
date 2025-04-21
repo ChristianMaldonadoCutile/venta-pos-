@@ -3,6 +3,13 @@ from .models import Usuario
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 from .models import Privilegio
+from .models import Rol
+
+
+class RolSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rol
+        fields = '__all__'
 
 class PrivilegioSerializer(serializers.ModelSerializer):
     class Meta:

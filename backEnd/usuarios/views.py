@@ -6,10 +6,63 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Privilegio
+from .models import Privilegio, Usuario
 from .serializers import PrivilegioSerializer
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
+from .models import Rol
+from .serializers import RolSerializer
+
+
+@api_view(['GET'])
+def obtener_usuarios_por_rol(request, name):
+    usuarios = Usuario.objects.filter(rol=name)
+    data = [{
+        'id': u.id,
+        'nombre': u.nombre,
+        'email': u.email,
+        'rol': u.rol,
+        'nit': u.nit,
+        'estado': u.estado,
+    } for u in usuarios]
+    return Response(data)
+
+@api_view(['GET'])
+def obtener_rol_por_id(request, id):
+    try:
+        rol = Rol.objects.get(id=id)
+        data = {
+            'id': rol.id,
+            'nombre': rol.nombre,
+            'descripcion': rol.descripcion,
+            'estado': rol.estado,
+        }
+        return Response(data)
+    except Rol.DoesNotExist:
+        return Response({'detail': 'Rol no encontrado'}, status=404)
+    
+@api_view(['POST'])
+def crear_rol(request):
+    serializer = RolSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def eliminar_rol(request, id):
+    try:
+        rol = Rol.objects.get(id=id)
+        rol.delete()
+        return Response({'detail': 'Rol eliminado correctamente'}, status=status.HTTP_204_NO_CONTENT)
+    except Rol.DoesNotExist:
+        return Response({'detail': 'Rol no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def obtener_roles(request):
+    roles = Rol.objects.all()
+    serializer = RolSerializer(roles, many=True)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -31,7 +84,27 @@ def crear_privilegio(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def obtener_todos_los_usuarios(request):
+    usuarios = Usuario.objects.all()
+    data = [{
+        'id': u.id,
+        'nombre': u.nombre,
+        'email': u.email,
+        'rol': u.rol,
+        'nit': u.nit,
+        'estado': u.estado,
+    } for u in usuarios]
+    return Response(data)
 
+@api_view(['DELETE'])
+def eliminar_usuario(request, id):
+    try:
+        usuario = get_user_model().objects.get(pk=id)
+        usuario.delete()
+        return Response({'detail': 'Usuario eliminado correctamente'}, status=status.HTTP_204_NO_CONTENT)
+    except get_user_model().DoesNotExist:
+        return Response({'detail': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['PUT'])
 def cambiar_contraseña(request, pk):
