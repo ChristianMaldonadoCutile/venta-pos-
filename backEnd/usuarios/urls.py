@@ -12,6 +12,7 @@ urlpatterns = [
     path('roles/<int:id>/', views.obtener_rol_por_id, name='rol_por_id'),
     path('usuarios/por-rol/<str:name>/', views.obtener_usuarios_por_rol, name='usuarios_por_rol'),
     path('usuarios/todos/', views.obtener_todos_los_usuarios, name='todos_los_usuarios'),
+    path('eliminar/<int:id>/', views.eliminar_usuario, name='eliminar_usuario'),
 ]
 urlpatterns += [
     path('roles/crear/', views.crear_rol, name='crear_rol'),

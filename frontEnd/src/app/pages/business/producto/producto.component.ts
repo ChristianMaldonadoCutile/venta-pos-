@@ -23,6 +23,14 @@ export default class ProductoComponent {
 
   producto: Producto = {} as Producto;
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+ * Lifecycle hook that is called after the component's data-bound properties are initialized.
+ * This method loads the initial data for the component by fetching and displaying
+ * the list of productos and categorias.
+ */
+
+/*******  2749d807-2adc-4d84-bd58-c5112da403e0  *******/
   ngOnInit() {
     this.mostrarProductos();
     this.cargarCategoria();
@@ -64,7 +72,7 @@ export default class ProductoComponent {
   }
 
   editarProducto(producto: Producto) {
-    this.producto = producto;
+    this.producto = { ...producto }; // <- esto crea una copia del objeto
     this.crear = false;
     this.abrirModal();
   }
@@ -77,5 +85,6 @@ export default class ProductoComponent {
 
   cerrarModal() {
     this.mostrarModal = false;
+    this.producto = {} as Producto;
   }
 }

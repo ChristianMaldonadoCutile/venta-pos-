@@ -1,4 +1,4 @@
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { Usuario } from '../../../model/usuario';
 import { UsuarioService } from '../../../service/usuarioservice/usuario.service';
@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-usuario',
-  imports: [CommonModule,NgFor,FormsModule],
+  imports: [CommonModule,NgFor,FormsModule,NgIf],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css'
 })
@@ -47,6 +47,20 @@ export default class UsuarioComponent {
     })
   }
 
+  eliminarUSuario(id: number) {
+    this.usuarioService.eliminarUSuario(id).subscribe(() => {
+      this.mostrarUsuarios();
+    });
+  }
+
+  actualizarUsuario(usuario: Usuario, id: number) {
+    this.usuarioService.actualizarUsuario(id, usuario).subscribe(() => {
+      this.usuario = usuario;
+      this.abrirModal();
+      this.mostrarUsuarios();
+    });
+  }
+
   mostrarModal = false;
 
   abrirModal() {
@@ -55,6 +69,7 @@ export default class UsuarioComponent {
 
   cerrarModal() {
     this.mostrarModal = false;
+    this.usuario = {} as Usuario;
   }
 
 }

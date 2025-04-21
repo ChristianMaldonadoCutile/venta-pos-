@@ -97,6 +97,15 @@ def obtener_todos_los_usuarios(request):
     } for u in usuarios]
     return Response(data)
 
+@api_view(['DELETE'])
+def eliminar_usuario(request, id):
+    try:
+        usuario = get_user_model().objects.get(pk=id)
+        usuario.delete()
+        return Response({'detail': 'Usuario eliminado correctamente'}, status=status.HTTP_204_NO_CONTENT)
+    except get_user_model().DoesNotExist:
+        return Response({'detail': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
 @api_view(['PUT'])
 def cambiar_contraseña(request, pk):
     try:
